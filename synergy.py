@@ -1,15 +1,27 @@
 # Задание №1
 # В первую строку вводится число N – количество чисел (1 ≤ N ≤ 100000). Во вторую строку вводится через пробел N чисел, каждое не превышает 2*10e9 по модулю. Требуется выяснить, сколько среди этих чисел различных. Выведите число, равное количеству различных чисел среди данных.
-n = int(input("Введите количество чисел: "))
-numbers = list(map(int, input(f"Введите {n} чисел через пробел: ").split()))
+# n = int(input("Введите количество чисел: "))
+# numbers = list(map(int, input(f"Введите {n} чисел через пробел: ").split()))
 
-unique_numbers = set(numbers)
-print(len(unique_numbers))
+# unique_numbers = set(numbers)
+# print(len(unique_numbers))
 
 # Задание №2
 # Вводятся два списка чисел, которые могут содержать до 100000 чисел каждый. Все числа каждого списка находятся на отдельной строке. Выведите, сколько чисел содержится одновременно как в первом списке, так и во втором.
-first_numbers = set(map(int, input(f"Введите числа первого списка через пробел: ").split()))
-second_numbers = set(map(int, input(f"Введите числа второго списка через пробел: ").split()))
+# first_numbers = set(map(int, input("Введите числа первого списка через пробел: ").split()))
+# second_numbers = set(map(int, input("Введите числа второго списка через пробел: ").split()))
 
-common_numbers = first_numbers & second_numbers
-print(len(common_numbers)) 
+# common_numbers = first_numbers & second_numbers
+# print(len(common_numbers)) 
+
+# Задание №3
+# Во входную строку водится последовательность чисел через пробел. Для каждого числа выведите слово ”YES” (в отдельной строке), если это число ранее встречалось в последовательности или ”NO”, если не встречалось.
+numbers = list(map(int, input("Введите числа через пробел: ").split()))
+unique_numbers = set()
+
+for number in numbers:
+  if number in unique_numbers:
+    print(f"{number}: YES")
+  else:
+    print(f"{number}: NO")
+    unique_numbers.add(number)
