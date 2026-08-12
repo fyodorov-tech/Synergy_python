@@ -156,3 +156,20 @@ def show_menu():
 
 def console_clear():
   subprocess.run("cls" if os.name == "nt" else "clear", shell=True)
+
+def get_command():
+  is_correct_command = False
+
+  while not is_correct_command:    
+    show_menu()
+
+    command = input("\033[33mВведите команду:\033[0m ").lower()
+    
+    console_clear()
+
+    if command in commands:
+      is_correct_command = True
+    else:
+      print("\033[31mВы ввели некорректную команду!\033[0m\n")
+  
+  return command
