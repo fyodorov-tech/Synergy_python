@@ -125,6 +125,7 @@
 # Я бы использовал enum для хранения команд, но мы enum ещё не проходили
 import os
 import subprocess
+import collections
 
 commands = {"create", "read", "update", "delete", "list", "stop"} 
 
@@ -173,3 +174,50 @@ def get_command():
       print("\033[31mВы ввели некорректную команду!\033[0m\n")
   
   return command
+
+def get_age():
+  is_correct_age = False
+
+  while not is_correct_age:
+    age = input("\033[33mВведите возраст питомца:\033[0m ")  
+
+    if age.lstrip("-").isdigit():
+      age = int(age)
+
+      if age >= 0:
+        is_correct_age = True
+      else:
+        print("\033[31mВозраст не может быть отрицательным!\033[0m\n")
+    else:
+      print("\033[31mВозраст должен быть числом!\033[0m\n")
+
+  return age
+
+def create():
+  if pets:
+    last = collections.deque(pets, maxlen=1)[0]
+  else:
+    last = 0
+
+  pet_name = input("\033[33mВведите имя питомца:\033[0m ")
+  pet_type = input("\033[33mВведите вид питомца:\033[0m ")
+  pet_age = get_age()
+  pet_owner = input("\033[33mВведите имя владельца питомца:\033[0m ")
+
+  last += 1
+  pets[last] = {
+    pet_name: {
+      "Вид питомца": pet_type,
+      "Возраст питомца": pet_age,
+      "Имя владельца": pet_owner
+    }
+  }
+
+  console_clear()
+
+  print("\033[32mПитомец успешно добавлен!\033[0m\n")
+
+command = get_command()
+
+if command == "create":
+  create()
