@@ -127,7 +127,7 @@ import os
 import subprocess
 import collections
 
-commands = {"create", "read", "update", "delete", "list", "stop"} 
+main_commands = {"create", "read", "update", "delete", "list", "stop"} 
 
 pets = {
   1: {
@@ -147,26 +147,29 @@ pets = {
 }
 
 def show_menu():
-  print("\033[33mДоступные команды:\033[0m\n" \
-  "\033[36mcreate\033[0m — добавить питомца\n" \
-  "\033[36mread\033[0m — посмотреть питомца\n" \
-  "\033[36mupdate\033[0m — изменить данные питомца\n" \
-  "\033[36mdelete\033[0m — удалить питомца\n" \
-  "\033[36mlist\033[0m — показать всех питомцев\n" \
+  print("\033[33mДоступные команды:\033[0m\n" 
+  "\033[36mcreate\033[0m — добавить питомца\n" 
+  "\033[36mread\033[0m — посмотреть питомца\n" 
+  "\033[36mupdate\033[0m — изменить данные питомца\n" 
+  "\033[36mdelete\033[0m — удалить питомца\n" 
+  "\033[36mlist\033[0m — показать всех питомцев\n" 
   "\033[36mstop\033[0m — завершить программу\n")
+
+def show_update_menu():
+  print("\033[33mЧто хотите обновить:\033[0m\n" 
+  "\033[36mname\033[0m — имя питомца\n" 
+  "\033[36mtype\033[0m — вид питомца\n" 
+  "\033[36mage\033[0m — возраст питомца\n" 
+  "\033[36mowner\033[0m — имя владельца\n")
 
 def console_clear():
   subprocess.run("cls" if os.name == "nt" else "clear", shell=True)
 
-def get_command():
+def get_command(commands):
   is_correct_command = False
 
   while not is_correct_command:    
-    show_menu()
-
-    command = input("\033[33mВведите команду:\033[0m ").lower()
-    
-    console_clear()
+    command = input("\033[33mВведите команду:\033[0m ").lower()    
 
     if command in commands:
       is_correct_command = True
@@ -209,6 +212,7 @@ def create():
   else:
     last = 0
 
+  console_clear()
   pet_name = input("\033[33mВведите имя питомца:\033[0m ")
   pet_type = input("\033[33mВведите вид питомца:\033[0m ")
   pet_age = get_age()
@@ -224,7 +228,6 @@ def create():
   }
 
   console_clear()
-
   print("\033[32mПитомец успешно добавлен!\033[0m\n")
 
 def get_id():
@@ -251,6 +254,8 @@ def get_pet(id):
 
 
 def read():
+  console_clear()
+
   pet_id = get_id()
 
   pet = get_pet(pet_id)
@@ -268,15 +273,52 @@ def read():
 
   pet_age_suffix = get_suffix(pet_age)
 
-  print(f"Это {pet_type} по кличке {pet_name}. Возраст питомца: {pet_age} {pet_age_suffix}. Имя владельца: {pet_owner}")
+  print(f"Это {pet_type} по кличке {pet_name}. Возраст питомца: {pet_age} {pet_age_suffix}. Имя владельца: {pet_owner}\n")
+
+def update():
+  update_commands = {"name", "age", "type", "owner"}
+
+  pet_id = get_id()
+
+  pet = get_pet(pet_id)
+
+  if not pet:
+    print("\033[31mПитомец с таким ID не найден!\033[0m\n")
+    return
+
+  pet_name = list(pet)[0]
+  pet_info = pet[pet_name]
+
+  console_clear()
+  show_update_menu()
+  command = get_command(update_commands)
+
+  if command == "name":
+    new_pet_name = input("\033[33mВведите имя питомца:\033[0m ")
+    pet[new_pet_name] = pet.pop(pet_name) 
+  elif command == "type":
+    pet_info["Вид питомца"] = input("\033[33mВведите вид питомца:\033[0m ")
+  elif command == "age":
+    pet_info["Возраст питомца"] = get_age()
+  elif command == "owner":
+    pet_info["Имя владельца"] = input("\033[33mВведите имя владельца питомца:\033[0m ")
+
+  console_clear()
+  print("\033[32mДанные питомца успешно обновлены!\033[0m\n")
+
 
 command = ""
 
 while command != "stop":
-  command = get_command()
+  show_menu()
+
+  command = get_command(main_commands)
 
   if command == "create":
     create()
 
   if command == "read":
     read()
+
+  if command == "update":
+    update()
