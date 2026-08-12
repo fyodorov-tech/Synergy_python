@@ -252,6 +252,17 @@ def get_pet(id):
   
   return pets[id] if id in pets else False
 
+def print_info(pet):
+  pet_name = list(pet)[0]
+  pet_info = pet[pet_name]
+  
+  pet_type = pet_info.get("Вид питомца", "Неизвестно")
+  pet_age = pet_info.get("Возраст питомца", "Неизвестно")
+  pet_owner = pet_info.get("Имя владельца", "Неизвестно")
+  
+  pet_age_suffix = get_suffix(pet_age)
+  
+  print(f"Это {pet_type} по кличке {pet_name}. Возраст питомца: {pet_age} {pet_age_suffix}. Имя владельца: {pet_owner}\n")
 
 def read():
   console_clear()
@@ -263,17 +274,8 @@ def read():
   if not pet:
     print("\033[31mПитомец с таким ID не найден!\033[0m\n")
     return
-  
-  pet_name = list(pet)[0]
-  pet_info = pet[pet_name]
 
-  pet_type = pet_info.get("Вид питомца", "Неизвестно")
-  pet_age = pet_info.get("Возраст питомца", "Неизвестно")
-  pet_owner = pet_info.get("Имя владельца", "Неизвестно")
-
-  pet_age_suffix = get_suffix(pet_age)
-
-  print(f"Это {pet_type} по кличке {pet_name}. Возраст питомца: {pet_age} {pet_age_suffix}. Имя владельца: {pet_owner}\n")
+  print_info(pet)
 
 def update():
   update_commands = {"name", "age", "type", "owner"}
