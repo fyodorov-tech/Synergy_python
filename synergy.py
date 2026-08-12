@@ -193,6 +193,16 @@ def get_age():
 
   return age
 
+def get_suffix(age):
+  if age % 10 == 1 and age % 100 != 11:
+    return "год"
+
+  if age % 10 in (2, 3, 4) and age % 100 not in (12, 13, 14):
+    return "года"
+  
+  return "лет"
+
+
 def create():
   if pets:
     last = collections.deque(pets, maxlen=1)[0]
@@ -217,7 +227,56 @@ def create():
 
   print("\033[32mПитомец успешно добавлен!\033[0m\n")
 
-command = get_command()
+def get_id():
+  is_correct_id = False
 
-if command == "create":
-  create()
+  while not is_correct_id:
+    id = input("\033[33mВведите ID питомца:\033[0m ")
+
+    if id.lstrip("-").isdigit():
+      id = int(id)      
+
+      if id > 0:
+        is_correct_id = True
+      else:
+        print("\033[31mID должен быть больше 0!\033[0m\n")
+    else:
+      print("\033[31mID должен быть числом!\033[0m\n")
+
+  return id
+
+def get_pet(id):
+  
+  return pets[id] if id in pets else False
+
+
+def read():
+  pet_id = get_id()
+
+  pet = get_pet(pet_id)
+
+  if not pet:
+    print("\033[31mПитомец с таким ID не найден!\033[0m\n")
+    return
+  
+  pet_name = list(pet)[0]
+  pet_info = pet[pet_name]
+
+  pet_type = pet_info.get("Вид питомца", "Неизвестно")
+  pet_age = pet_info.get("Возраст питомца", "Неизвестно")
+  pet_owner = pet_info.get("Имя владельца", "Неизвестно")
+
+  pet_age_suffix = get_suffix(pet_age)
+
+  print(f"Это {pet_type} по кличке {pet_name}. Возраст питомца: {pet_age} {pet_age_suffix}. Имя владельца: {pet_owner}")
+
+command = ""
+
+while command != "stop":
+  command = get_command()
+
+  if command == "create":
+    create()
+
+  if command == "read":
+    read()
