@@ -238,23 +238,23 @@ def get_id():
   is_correct_id = False
 
   while not is_correct_id:
-    id = input("\033[33mВведите ID питомца:\033[0m ")
+    pet_id = input("\033[33mВведите ID питомца:\033[0m ")
 
-    if id.lstrip("-").isdigit():
-      id = int(id)      
+    if pet_id.lstrip("-").isdigit():
+      pet_id = int(pet_id)      
 
-      if id > 0:
+      if pet_id > 0:
         is_correct_id = True
       else:
         print("\033[31mID должен быть больше 0!\033[0m\n")
     else:
       print("\033[31mID должен быть числом!\033[0m\n")
 
-  return id
+  return pet_id
 
-def get_pet(id):
+def get_pet(pet_id):
   
-  return pets[id] if id in pets else False  
+  return pets.get(pet_id, False)
 
 def read():
   console_clear()
@@ -327,6 +327,21 @@ def update():
   console_clear()
   print("\033[32mДанные питомца успешно обновлены!\033[0m\n")
 
+def delete():
+  console_clear()
+
+  pet_id = get_id()
+  pet = get_pet(pet_id)
+
+  if not pet:
+    print("\033[31mПитомец с таким ID не найден!\033[0m\n")
+    return
+
+  pet_name = list(pet)[0]
+
+  pets.pop(pet_id)
+
+  print(f"\033[32mПитомец {pet_name} успешно удалён!\033[0m\n")
 
 command = ""
 
@@ -343,3 +358,7 @@ while command != "stop":
     update()
   elif command == "list":
     pets_list()
+  elif command == "delete":
+    delete()
+
+  print(f"\033[32mПрограмма завершена.\033[0m\n")
