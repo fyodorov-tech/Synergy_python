@@ -147,20 +147,24 @@ pets = {
 }
 
 def show_menu():
-  print("\033[33mДоступные команды:\033[0m\n" 
-  "\033[36mcreate\033[0m — добавить питомца\n" 
-  "\033[36mread\033[0m — посмотреть питомца\n" 
-  "\033[36mupdate\033[0m — изменить данные питомца\n" 
-  "\033[36mdelete\033[0m — удалить питомца\n" 
-  "\033[36mlist\033[0m — показать всех питомцев\n" 
-  "\033[36mstop\033[0m — завершить программу\n")
+  print(
+    "\033[33mДоступные команды:\033[0m\n" 
+    "\033[36mcreate\033[0m — добавить питомца\n" 
+    "\033[36mread\033[0m — посмотреть питомца\n" 
+    "\033[36mupdate\033[0m — изменить данные питомца\n" 
+    "\033[36mdelete\033[0m — удалить питомца\n" 
+    "\033[36mlist\033[0m — показать всех питомцев\n" 
+    "\033[36mstop\033[0m — завершить программу\n"
+  )
 
 def show_update_menu():
-  print("\033[33mЧто хотите обновить:\033[0m\n" 
-  "\033[36mname\033[0m — имя питомца\n" 
-  "\033[36mtype\033[0m — вид питомца\n" 
-  "\033[36mage\033[0m — возраст питомца\n" 
-  "\033[36mowner\033[0m — имя владельца\n")
+  print(
+    "\033[33mЧто хотите обновить:\033[0m\n" 
+    "\033[36mname\033[0m — имя питомца\n" 
+    "\033[36mtype\033[0m — вид питомца\n" 
+    "\033[36mage\033[0m — возраст питомца\n" 
+    "\033[36mowner\033[0m — имя владельца\n"
+  )
 
 def console_clear():
   subprocess.run("cls" if os.name == "nt" else "clear", shell=True)
@@ -277,6 +281,24 @@ def read():
 
   print_info(pet)
 
+def pets_list():
+  console_clear()
+
+  for pet_id, pet in pets.items():
+    for pet_name, pet_info in pet.items():
+      pet_type = pet_info.get("Вид питомца", "Неизвестно")
+      pet_age = pet_info.get("Возраст питомца", "Неизвестно")
+      pet_age_suffix = get_suffix(pet_age)
+      pet_owner = pet_info.get("Имя владельца", "Неизвестно")
+      
+      print(
+        f"\033[35mID:\033[0m {pet_id}\n" 
+        f"\033[35mИмя питомца:\033[0m {pet_name}\n"
+        f"\033[35mВид питомца:\033[0m {pet_type}\n"
+        f"\033[35mВозраст питомца:\033[0m {pet_age} {pet_age_suffix}\n"
+        f"\033[35mИмя владельца:\033[0m {pet_owner}\n"
+      )
+
 def update():
   update_commands = {"name", "age", "type", "owner"}
 
@@ -318,9 +340,9 @@ while command != "stop":
 
   if command == "create":
     create()
-
-  if command == "read":
+  elif command == "read":
     read()
-
-  if command == "update":
+  elif command == "update":
     update()
+  elif command == "list":
+    pets_list()
