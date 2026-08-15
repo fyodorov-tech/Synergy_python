@@ -317,9 +317,9 @@ def delete():
 
   print(f"\033[32mПитомец {pet_name} успешно удалён!\033[0m\n")
 
-command = ""
+is_app_oppen = True
 
-while command != "stop":
+while is_app_oppen:
   show_menu()
 
   command = get_command(main_commands)
@@ -334,5 +334,8 @@ while command != "stop":
     pets_list()
   elif command == "delete":
     delete()
+  elif command == "stop":
+    is_app_oppen = False
+    print(f"\033[32mПрограмма завершена.\033[0m\n")
 
-  print(f"\033[32mПрограмма завершена.\033[0m\n")
+  
