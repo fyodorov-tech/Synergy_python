@@ -47,6 +47,14 @@ class Map:
         if randbool(threshold, max_random):
           self.cells[i][j] = 1
 
+  def generate_tree(self):
+    cell = randcell(self.width, self.height)
+    cell_x, cell_y = c[0], c[1]
+
+    if (self.check_bounds(cell_x, cell_y) and self.cells[cell_x][cell_y] == 0):
+      self.cells[cell_x][cell_y] = 1
+
+
   def print_map(self):
     print("⬛" * (self.width + 2))
     for row in self.cells:
