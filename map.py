@@ -11,7 +11,7 @@ from utils import get_neighbor
 # 5 - огонь
 
 CELL_TYPES = "🟩🌲🌊🏥🏦🔥"
-
+TREE_BONUS = 100
 class Map:
   def __init__(self, width, height):
     self.width = width
@@ -97,4 +97,5 @@ class Map:
       helicopter.tank = helicopter.max_tank
     if cell == 5 and helicopter.tank > 0:
       helicopter.tank -= 1
+      helicopter.score += TREE_BONUS
       self.cells[helicopter.x][helicopter.y] = 1

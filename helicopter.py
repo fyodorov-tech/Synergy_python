@@ -7,6 +7,7 @@ class Helicopter:
     self.x, self.y = randcell(field_width, field_height)
     self.tank = 0
     self.max_tank = 1
+    self.score = 0
 
   def move(self, dx, dy):
     new_x, new_y = self.x + dx, self.y + dy 
@@ -15,4 +16,5 @@ class Helicopter:
       self.x, self.y = new_x, new_y
 
   def print_stats(self):
-    print("💧 ", self.tank, "/", self.max_tank, sep="")
+    print("💧 ", self.tank, "/", self.max_tank, sep="", end = " | ")
+    print("🏆" , self.score)
