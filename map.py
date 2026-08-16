@@ -23,12 +23,15 @@ class Map:
       return False
     return True
   
-  def print_map(self):
+  def print_map(self, helicopter):
     print("⬛" * (self.width + 2))
-    for row in self.cells:
+    for i in range(self.height):
       print("⬛", end="")
-      for cell in row:
-        if (cell >= 0 and cell < len(CELL_TYPES)):
+      for j in range(self.width):
+        cell = self.cells[i][j]
+        if (helicopter.x == j and helicopter.y == i):
+          print("🚁", end="")
+        elif (cell >= 0 and cell < len(CELL_TYPES)):
           print(CELL_TYPES[cell], end="")
       print("⬛")
     print("⬛" * (self.width + 2))
