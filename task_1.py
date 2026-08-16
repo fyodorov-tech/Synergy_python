@@ -18,6 +18,7 @@ class Transport:
     self.max_speed = max_speed
     self.mileage = mileage
 
+  # Переопределил __str__ т. к. считаю что так удобнее выводить информацию об объекте
   def __str__(self):
     return f"Название автомобиля: {self.name} Скорость: {self.max_speed} Пробег: {self.mileage}"
 
