@@ -1,3 +1,5 @@
+from utils import randbool
+
 # 0 - поле
 # 1 - дерево
 # 2 - река
@@ -12,7 +14,12 @@ class Map:
     self.height = height
     self.cells = [[0 for i in range(width)]for j in range(height)]
 
-  # def generate_rivers():
+  # def generate_river():
+  def generate_forest(self, threshold, max_random):
+    for i in range(self.height):
+      for j in range(self.width):
+        if randbool(threshold, max_random):
+          self.cells[i][j] = 1
 
   # def generate_forest():
 
