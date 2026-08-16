@@ -18,6 +18,34 @@ class Map:
     self.height = height
     self.cells = [[0 for i in range(width)]for j in range(height)]
 
+  def check_bounds(self, x, y):
+    if (x < 0 or y < 0 or x >= self.height or y >= self.width):
+      return False
+    return True
+  
+  def print_map(self):
+    print("⬛" * (self.width + 2))
+    for row in self.cells:
+      print("⬛", end="")
+      for cell in row:
+        if (cell >= 0 and cell < len(CELL_TYPES)):
+          print(CELL_TYPES[cell], end="")
+      print("⬛")
+    print("⬛" * (self.width + 2))
+  
+  def generate_forest(self, threshold, max_random):
+    for i in range(self.height):
+      for j in range(self.width):
+        if randbool(threshold, max_random):
+          self.cells[i][j] = 1
+
+  def generate_tree(self):
+    cell = randcell(self.width, self.height)
+    cell_x, cell_y = cell[0], cell[1]
+
+    if self.cells[cell_x][cell_y] == 0:
+      self.cells[cell_x][cell_y] = 1
+
   def generate_river(self, max_length):
     while True:
       rand_x, rand_y = randcell(self.width, self.height)
@@ -40,20 +68,7 @@ class Map:
 
       rand_x, rand_y = free_neighbors[rand(0, len(free_neighbors) - 1)]
       self.cells[rand_x][rand_y] = 2
-      max_length -= 1      
-
-  def generate_forest(self, threshold, max_random):
-    for i in range(self.height):
-      for j in range(self.width):
-        if randbool(threshold, max_random):
-          self.cells[i][j] = 1
-
-  def generate_tree(self):
-    cell = randcell(self.width, self.height)
-    cell_x, cell_y = cell[0], cell[1]
-
-    if self.cells[cell_x][cell_y] == 0:
-      self.cells[cell_x][cell_y] = 1
+      max_length -= 1    
 
   def add_fire(self):
     cell = randcell(self.width, self.height)
@@ -72,18 +87,3 @@ class Map:
 
     for _ in range(5):
       self.add_fire()
-
-  def print_map(self):
-    print("⬛" * (self.width + 2))
-    for row in self.cells:
-      print("⬛", end="")
-      for cell in row:
-        if (cell >= 0 and cell < len(CELL_TYPES)):
-          print(CELL_TYPES[cell], end="")
-      print("⬛")
-    print("⬛" * (self.width + 2))
-
-  def check_bounds(self, x, y):
-    if (x < 0 or y < 0 or x >= self.height or y >= self.width):
-      return False
-    return True
