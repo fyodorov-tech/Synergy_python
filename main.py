@@ -47,6 +47,7 @@ tick = 1
 while True:
   clear()
   print("TICK", tick)
+  field.process_helicopter(helicopter)
   helicopter.print_stats()
   field.print_map(helicopter)
   tick += 1
