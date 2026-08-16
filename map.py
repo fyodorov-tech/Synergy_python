@@ -52,7 +52,7 @@ class Map:
     cell = randcell(self.width, self.height)
     cell_x, cell_y = cell[0], cell[1]
 
-    if (self.check_bounds(cell_x, cell_y) and self.cells[cell_x][cell_y] == 0):
+    if self.cells[cell_x][cell_y] == 0:
       self.cells[cell_x][cell_y] = 1
 
   def add_fire(self):
@@ -62,6 +62,16 @@ class Map:
     if self.cells[cell_x][cell_y] == 1:
       self.cells[cell_x][cell_y] = 5
 
+  def update_fires(self):
+    for i in range(self.height):
+      for j in range(self.width):
+        cell = self.cells[i][j]
+
+        if cell == 5:
+          self.cells[i][j] = 0
+
+    for _ in range(5):
+      self.add_fire()
 
   def print_map(self):
     print("⬛" * (self.width + 2))
