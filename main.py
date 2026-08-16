@@ -3,20 +3,22 @@ from helicopter import Helicopter
 import time
 import os
 import subprocess
+from pynput import keyboard
 
 TICK_SLEEP = 0.05
 TREE_UPDATE = 50
 FIRE_UPDATE = 100
 MAP_WIDTH, MAP_HEIGHT = 20, 10
-MOVES = {"w": (-1, 0), "d": (0, 1), "s": (1, 0), "a": (0, -1)}
+MOVES = {"w": (-1, 0), "d": (0, 1), "s": (1, 0), "a": (0, -1), "ц": (-1, 0), "в": (0, 1), "ы": (1, 0), "ф": (0, -1)}
 
 def clear():
   subprocess.run("cls" if os.name == "nt" else "clear", shell=True)
   # print("\033[H", end="")
 
-from pynput import keyboard
-
 def process_key(key):
+  if not hasattr(key, "char") or key.char is None:
+    return
+
   global helicopter
 
   ch = key.char.lower()
@@ -27,18 +29,14 @@ def process_key(key):
     
     # if key == keyboard.Key.esc:
     #     # Stop listener
-    #     return False
-    
+    #     return False    
+
 listener = keyboard.Listener(
     on_press=None,
     on_release=process_key)
 listener.start()
 
 field = Map(MAP_WIDTH, MAP_HEIGHT)
-field.generate_forest(5, 10)
-field.generate_river(10)
-field.generate_river(5)
-field.generate_river(8)
 
 helicopter = Helicopter(MAP_WIDTH, MAP_HEIGHT)
 

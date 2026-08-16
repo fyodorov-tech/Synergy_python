@@ -12,11 +12,17 @@ from utils import get_neighbor
 
 CELL_TYPES = "🟩🌲🌊🏥🏦🔥"
 TREE_BONUS = 100
+UPGRADE_COST = 1000
 class Map:
   def __init__(self, width, height):
     self.width = width
     self.height = height
     self.cells = [[0 for i in range(width)]for j in range(height)]
+    self.generate_forest(5, 10)
+    self.generate_river(10)
+    self.generate_river(3)
+    self.generate_river(5)
+    self.generate_upgrade_shop()
 
   def check_bounds(self, x, y):
     if (x < 0 or y < 0 or x >= self.height or y >= self.width):
@@ -88,7 +94,7 @@ class Map:
         if cell == 5:
           self.cells[i][j] = 0
 
-    for _ in range(5):
+    for _ in range(10):
       self.add_fire()
 
   def process_helicopter(self, helicopter):
@@ -99,3 +105,12 @@ class Map:
       helicopter.tank -= 1
       helicopter.score += TREE_BONUS
       self.cells[helicopter.x][helicopter.y] = 1
+    if cell == 4 and helicopter.score >= UPGRADE_COST:
+      helicopter.max_tank += 1
+      helicopter.score -= UPGRADE_COST
+
+  def generate_upgrade_shop(self):
+    cell = randcell(self.width, self.height)
+    cell_x, cell_y = cell[0], cell[1]
+    self.cells[cell_x][cell_y] = 4
+    
