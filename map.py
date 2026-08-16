@@ -29,7 +29,7 @@ class Map:
       print("⬛", end="")
       for j in range(self.width):
         cell = self.cells[i][j]
-        if (helicopter.x == j and helicopter.y == i):
+        if (helicopter.x == i and helicopter.y == j):
           print("🚁", end="")
         elif (cell >= 0 and cell < len(CELL_TYPES)):
           print(CELL_TYPES[cell], end="")
