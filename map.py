@@ -92,5 +92,9 @@ class Map:
       self.add_fire()
 
   def process_helicopter(self, helicopter):
-    if self.cells[helicopter.x][helicopter.y] == 2:
+    cell = self.cells[helicopter.x][helicopter.y]
+    if cell == 2:
       helicopter.tank = helicopter.max_tank
+    if cell == 5 and helicopter.tank > 0:
+      helicopter.tank -= 1
+      self.cells[helicopter.x][helicopter.y] = 1
