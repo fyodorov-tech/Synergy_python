@@ -11,8 +11,8 @@ MAP_WIDTH, MAP_HEIGHT = 20, 10
 MOVES = {"w": (-1, 0), "d": (0, 1), "s": (1, 0), "a": (0, -1)}
 
 def clear():
-  # subprocess.run("cls" if os.name == "nt" else "clear", shell=True)
-  print("\033[H", end="")
+  subprocess.run("cls" if os.name == "nt" else "clear", shell=True)
+  # print("\033[H", end="")
 
 from pynput import keyboard
 
@@ -47,6 +47,7 @@ tick = 1
 while True:
   clear()
   print("TICK", tick)
+  helicopter.print_stats()
   field.print_map(helicopter)
   tick += 1
   time.sleep(TICK_SLEEP)
