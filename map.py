@@ -8,8 +8,9 @@ from utils import get_neighbor
 # 2 - река
 # 3 - госпиталь
 # 4 - апгрейд-шоп
+# 5 - огонь
 
-CELL_TYPES = "🟩🌲🌊🏥🏦"
+CELL_TYPES = "🟩🌲🌊🏥🏦🔥"
 
 class Map:
   def __init__(self, width, height):
@@ -49,10 +50,17 @@ class Map:
 
   def generate_tree(self):
     cell = randcell(self.width, self.height)
-    cell_x, cell_y = c[0], c[1]
+    cell_x, cell_y = cell[0], cell[1]
 
     if (self.check_bounds(cell_x, cell_y) and self.cells[cell_x][cell_y] == 0):
       self.cells[cell_x][cell_y] = 1
+
+  def add_fire(self):
+    cell = randcell(self.width, self.height)
+    cell_x, cell_y = cell[0], cell[1]
+
+    if self.cells[cell_x][cell_y] == 1:
+      self.cells[cell_x][cell_y] = 5
 
 
   def print_map(self):
