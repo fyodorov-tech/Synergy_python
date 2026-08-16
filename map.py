@@ -61,9 +61,3 @@ class Map:
     if (x < 0 or y < 0 or x >= self.height or y >= self.width):
       return False
     return True
-
-tmp = Map(20, 10)
-tmp.generate_river(10)
-tmp.generate_river(5)
-tmp.generate_river(8)
-tmp.print_map()
