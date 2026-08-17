@@ -8,8 +8,8 @@ from pynput import keyboard
 
 TICK_SLEEP = 0.05
 TREE_UPDATE = 50
-CLOUDS_UPDATE = 80
-FIRE_UPDATE = 100
+CLOUDS_UPDATE = 100
+FIRE_UPDATE = 75
 MAP_WIDTH, MAP_HEIGHT = 20, 10
 MOVES = {"w": (-1, 0), "d": (0, 1), "s": (1, 0), "a": (0, -1), "ц": (-1, 0), "в": (0, 1), "ы": (1, 0), "ф": (0, -1)}
 
@@ -18,11 +18,11 @@ def clear():
   # print("\033[H", end="")
 
 def game_over():
-  print(f"\033[31m################################\033[0m")
-  print(f"\033[31m#                              #\033[0m")
-  print(f"\033[31m#  GAME OVER,\033[0m YOUR SCORE IS \033[33m{helicopter.score}\033[0m  \033[31m#\033[0m")
-  print(f"\033[31m#                              #\033[0m")
-  print(f"\033[31m################################\033[0m")
+  print(f"\033[31m########################################\033[0m")
+  print()
+  print(f"\033[31m     GAME OVER,\033[0m YOUR SCORE IS \033[33m{helicopter.score}")
+  print()
+  print(f"\033[31m########################################\033[0m")
 
 def process_key(key):
   if not hasattr(key, "char") or key.char is None:

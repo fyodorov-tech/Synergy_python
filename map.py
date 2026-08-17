@@ -39,7 +39,7 @@ class Map:
       for j in range(self.width):
         cell = self.cells[i][j]
         if self.clouds.cells[i][j] == 1:
-          print("⬜", end="")
+          print("⚪", end="")
         elif self.clouds.cells[i][j] == 2:
           print("⚡", end="")
         elif (helicopter.x == i and helicopter.y == j):
