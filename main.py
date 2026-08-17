@@ -17,6 +17,13 @@ def clear():
   subprocess.run("cls" if os.name == "nt" else "clear", shell=True)
   # print("\033[H", end="")
 
+def game_over():
+  print(f"\033[31m################################\033[0m")
+  print(f"\033[31m#                              #\033[0m")
+  print(f"\033[31m#  GAME OVER,\033[0m YOUR SCORE IS \033[33m{helicopter.score}\033[0m  \033[31m#\033[0m")
+  print(f"\033[31m#                              #\033[0m")
+  print(f"\033[31m################################\033[0m")
+
 def process_key(key):
   if not hasattr(key, "char") or key.char is None:
     return
@@ -46,7 +53,14 @@ tick = 1
 
 while True:
   clear()
+
   field.process_helicopter(helicopter)
+
+  if helicopter.lives <= 0:
+    clear()
+    game_over()
+    break  
+
   helicopter.print_stats()
   field.print_map(helicopter)
   print("TICK", tick)

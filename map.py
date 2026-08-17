@@ -19,13 +19,13 @@ class Map:
     self.width = width
     self.height = height
     self.cells = [[0 for i in range(width)]for j in range(height)]
+    self.clouds = clouds
     self.generate_forest(5, 10)
     self.generate_river(10)
     self.generate_river(3)
     self.generate_river(5)
     self.generate_upgrade_shop()
     self.generate_hospital()
-    self.clouds = clouds
 
   def check_bounds(self, x, y):
     if (x < 0 or y < 0 or x >= self.height or y >= self.width):
@@ -120,7 +120,7 @@ class Map:
       helicopter.lives += 10
       helicopter.score -= LIFE_COST
     if clouds_cell == 2:
-      helicopter.lives -= 1
+      helicopter.lives -= 1     
     
 
   def generate_upgrade_shop(self):
