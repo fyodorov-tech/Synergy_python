@@ -4,6 +4,7 @@ from clouds import Clouds
 import time
 import os
 import subprocess
+import json
 from pynput import keyboard
 
 TICK_SLEEP = 0.05
@@ -28,18 +29,31 @@ def process_key(key):
   if not hasattr(key, "char") or key.char is None:
     return
 
-  global helicopter
+  global helicopter, clouds, field, tick
 
   ch = key.char.lower()
 
   if ch in MOVES.keys():
     dx, dy = MOVES[ch][0], MOVES[ch][1]
     helicopter.move(dx, dy)
-    
-    # if key == keyboard.Key.esc:
-    #     # Stop listener
-    #     return False    
+  elif ch == "f":
+    data = {
+      "helicopter": helicopter.export_data(),
+      "clouds": clouds.export_data(),
+      "field": field.export_data(),
+      "tick": tick
+    }
+    with open("level.json", "w") as lvl:
+      json.dump(data, lvl)
+  elif ch == "g":
+    with open("level.json", "r") as lvl:
+      data = json.load(lvl) 
+      helicopter.import_data(data["helicopter"])
+      tick = data["tick"] or 1
+      field.import_data(data["field"])
+      clouds.import_data(data["clouds"])
 
+  
 listener = keyboard.Listener(
     on_press=None,
     on_release=process_key)
@@ -48,7 +62,6 @@ listener.start()
 clouds = Clouds(MAP_WIDTH, MAP_HEIGHT)
 field = Map(MAP_WIDTH, MAP_HEIGHT, clouds)
 helicopter = Helicopter(MAP_WIDTH, MAP_HEIGHT)
-
 tick = 1
 
 while True:
