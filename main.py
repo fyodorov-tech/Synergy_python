@@ -1,5 +1,6 @@
 from map import Map
 from helicopter import Helicopter
+from clouds import Clouds
 import time
 import os
 import subprocess
@@ -7,6 +8,7 @@ from pynput import keyboard
 
 TICK_SLEEP = 0.05
 TREE_UPDATE = 50
+CLOUDS_UPDATE = 80
 FIRE_UPDATE = 100
 MAP_WIDTH, MAP_HEIGHT = 20, 10
 MOVES = {"w": (-1, 0), "d": (0, 1), "s": (1, 0), "a": (0, -1), "ц": (-1, 0), "в": (0, 1), "ы": (1, 0), "ф": (0, -1)}
@@ -36,8 +38,8 @@ listener = keyboard.Listener(
     on_release=process_key)
 listener.start()
 
-field = Map(MAP_WIDTH, MAP_HEIGHT)
-
+clouds = Clouds(MAP_WIDTH, MAP_HEIGHT)
+field = Map(MAP_WIDTH, MAP_HEIGHT, clouds)
 helicopter = Helicopter(MAP_WIDTH, MAP_HEIGHT)
 
 tick = 1
@@ -56,3 +58,6 @@ while True:
 
   if (tick % FIRE_UPDATE == 0):
     field.update_fires()
+
+  if (tick % CLOUDS_UPDATE == 0):
+      clouds.update()

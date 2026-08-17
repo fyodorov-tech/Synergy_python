@@ -15,7 +15,7 @@ TREE_BONUS = 100
 UPGRADE_COST = 1000
 LIFE_COST = 5000
 class Map:
-  def __init__(self, width, height):
+  def __init__(self, width, height, clouds):
     self.width = width
     self.height = height
     self.cells = [[0 for i in range(width)]for j in range(height)]
@@ -25,6 +25,7 @@ class Map:
     self.generate_river(5)
     self.generate_upgrade_shop()
     self.generate_hospital()
+    self.clouds = clouds
 
   def check_bounds(self, x, y):
     if (x < 0 or y < 0 or x >= self.height or y >= self.width):
@@ -37,7 +38,11 @@ class Map:
       print("⬛", end="")
       for j in range(self.width):
         cell = self.cells[i][j]
-        if (helicopter.x == i and helicopter.y == j):
+        if self.clouds.cells[i][j] == 1:
+          print("⬜", end="")
+        elif self.clouds.cells[i][j] == 2:
+          print("⚡", end="")
+        elif (helicopter.x == i and helicopter.y == j):
           print("🚁", end="")
         elif (cell >= 0 and cell < len(CELL_TYPES)):
           print(CELL_TYPES[cell], end="")
@@ -101,6 +106,7 @@ class Map:
 
   def process_helicopter(self, helicopter):
     cell = self.cells[helicopter.x][helicopter.y]
+    clouds_cell = self.clouds.cells[helicopter.x][helicopter.y]
     if cell == 2:
       helicopter.tank = helicopter.max_tank
     if cell == 5 and helicopter.tank > 0:
@@ -111,8 +117,11 @@ class Map:
       helicopter.max_tank += 1
       helicopter.score -= UPGRADE_COST
     if cell == 3 and helicopter.score >= LIFE_COST:
-      helicopter.lives += 1
+      helicopter.lives += 10
       helicopter.score -= LIFE_COST
+    if clouds_cell == 2:
+      helicopter.lives -= 1
+    
 
   def generate_upgrade_shop(self):
     cell = randcell(self.width, self.height)
