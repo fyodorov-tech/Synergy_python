@@ -44,10 +44,10 @@ tick = 1
 
 while True:
   clear()
-  print("TICK", tick)
   field.process_helicopter(helicopter)
   helicopter.print_stats()
   field.print_map(helicopter)
+  print("TICK", tick)
   tick += 1
   time.sleep(TICK_SLEEP)
 

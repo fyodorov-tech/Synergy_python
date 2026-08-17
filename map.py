@@ -13,6 +13,7 @@ from utils import get_neighbor
 CELL_TYPES = "🟩🌲🌊🏥🏦🔥"
 TREE_BONUS = 100
 UPGRADE_COST = 1000
+LIFE_COST = 5000
 class Map:
   def __init__(self, width, height):
     self.width = width
@@ -23,6 +24,7 @@ class Map:
     self.generate_river(3)
     self.generate_river(5)
     self.generate_upgrade_shop()
+    self.generate_hospital()
 
   def check_bounds(self, x, y):
     if (x < 0 or y < 0 or x >= self.height or y >= self.width):
@@ -108,9 +110,25 @@ class Map:
     if cell == 4 and helicopter.score >= UPGRADE_COST:
       helicopter.max_tank += 1
       helicopter.score -= UPGRADE_COST
+    if cell == 3 and helicopter.score >= LIFE_COST:
+      helicopter.lives += 1
+      helicopter.score -= LIFE_COST
 
   def generate_upgrade_shop(self):
     cell = randcell(self.width, self.height)
     cell_x, cell_y = cell[0], cell[1]
-    self.cells[cell_x][cell_y] = 4
+
+    if self.cells[cell_x][cell_y] != 2 and self.cells[cell_x][cell_y] != 3:
+      self.cells[cell_x][cell_y] = 4
+    else:
+      self.generate_upgrade_shop()
+
+  def generate_hospital(self):
+    
+    cell = randcell(self.width, self.height)
+    cell_x, cell_y = cell[0], cell[1]
+    if self.cells[cell_x][cell_y] != 2 and self.cells[cell_x][cell_y] != 4:
+      self.cells[cell_x][cell_y] = 3
+    else:
+      self.generate_hospital()
     
