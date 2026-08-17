@@ -36,7 +36,7 @@ def process_key(key):
   if ch in MOVES.keys():
     dx, dy = MOVES[ch][0], MOVES[ch][1]
     helicopter.move(dx, dy)
-  elif ch == "f":
+  elif ch == "f" or ch == "а":
     data = {
       "helicopter": helicopter.export_data(),
       "clouds": clouds.export_data(),
@@ -45,7 +45,7 @@ def process_key(key):
     }
     with open("level.json", "w") as lvl:
       json.dump(data, lvl)
-  elif ch == "g":
+  elif ch == "g" or ch == "п":
     with open("level.json", "r") as lvl:
       data = json.load(lvl) 
       helicopter.import_data(data["helicopter"])
